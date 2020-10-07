@@ -1,0 +1,66 @@
+/*Login*/
+.form-signin {
+    max-width: 400px;
+    padding: 15px 35px 45px;
+    margin: 20px auto 10px;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 9px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+.form-signin input {
+	padding: 20px 8px;
+}
+.form-signin .col-md-12 {
+	padding: 5px;
+	margin-bottom: 30px;
+}
+.materialize {
+	position: relative;
+}
+
+.form-signin label {
+	color: #999;
+	font-size: 16px;
+	font-weight: normal;
+	position: absolute;
+	left: 8px;
+	top: 14px;
+	transition: 0.2s ease all;
+	-moz-transition: 0.2s ease all;
+	-webkit-transition: 0.2s ease all;
+}
+.materialize .form-control {
+	outline: none;
+	box-shadow: none;
+	border-radius: 0;
+}
+/* active state */
+
+.form-signin .form-control:focus ~ label,
+.form-signin .form-control:valid ~ label {
+  top: -20px;
+  font-size: 14px;
+
+}
+.materialize .form-control {
+	width: 100%;
+	display: block;
+	border: none;
+	padding: 10px 0;
+	border-bottom: solid 1px #337ab7;
+	-webkit-transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
+	transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
+	background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 96%, #337ab7 4%);
+	background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 96%, #337ab7 4%);
+	background-position: -1000px 0;
+	background-size: 100%;
+	background-repeat: no-repeat;
+	color: #444;
+}
+
+.materialize .form-control:focus, 
+.materialize .form-control:valid {
+	box-shadow: none;
+	outline: none;
+	background-position: 0 0;
+}

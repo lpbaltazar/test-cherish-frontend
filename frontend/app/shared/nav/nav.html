@@ -1,0 +1,30 @@
+<nav class="navbar navbar-inverse navbar-fixed-top blue" role="navigation">
+    <div class="navbar-header">
+        <a class="navbar-brand" href=" ">DARC</a>
+    </div>
+    <ul class="nav navbar-right top-nav">
+        <li class="dropdown" uib-dropdown on-toggle="toggled(open)">
+            <a  class="dropdown-toggle" uib-dropdown-toggle>
+                <i class="fa fa-user text-white"></i>
+                <strong class="caret text-white"></strong>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a ui-sref="app.profile">
+                        <i class="fa fa-user"></i> My Profile
+                    </a>
+                </li>
+                <li>
+                    <a ui-sref="app.settings">
+                        <i class="fa fa-gear"></i> Settings
+                    </a>
+                </li>
+                <li>
+                    <a ng-click="vm.logout()">
+                        <i class="fa fa-power-off"></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</nav>

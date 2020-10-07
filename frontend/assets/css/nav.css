@@ -1,0 +1,111 @@
+.top-nav {
+    padding: 0 15px;
+}
+
+.top-nav>li {
+    display: inline-block;
+    float: left;
+}
+
+.top-nav>li>a {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    line-height: 20px;
+    color: rgba(115, 115, 115, 0.86);
+}
+.top-nav>.open>.dropdown-menu {
+    float: left;
+    position: absolute;
+    margin-top: 0;
+    border: 1px solid rgba(0,0,0,.15);
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    background-color: #fff;
+}
+.top-nav>.open>.dropdown-menu>li>a {
+    white-space: normal;
+    padding: 10px;
+}
+.navbar{
+    height: 50px !important;
+    min-height: 50px !important;
+    margin-bottom: 0px;
+    border: 1px solid transparent;
+}
+.nav .open>a, 
+.nav .open>a:hover, 
+.nav .open>a:focus {
+    background: transparent;
+}
+.nav>li>a:hover,
+.nav>li>a:focus {
+    background: transparent;
+}
+/* Side Navigation */
+
+.side-nav>li>ul {
+    padding: 0;
+}
+.side-nav li:first-child {
+    margin-top: 20px;
+}
+.side-nav>li>ul>li>a {
+    display: block;
+    padding: 10px 15px 10px 38px;
+    text-decoration: none;
+    color: #999;
+}
+
+/*.side-nav>li>ul>li>a:hover {
+    color: #fff;
+}*/
+.side-nav ul .active, 
+.side-nav ul .active a, 
+.side-nav ul .active a:hover{
+    background: rgba(114, 114, 114, 0.12);
+}
+.huge {
+    font-size: 40px;
+}
+
+@media(min-width:768px) {
+    .side-nav {
+        position: fixed;
+        top: 51px;
+        left: 225px;
+        width: 225px;
+        margin-left: -225px;
+        border: none;
+        border-radius: 0;
+        overflow-y: auto;
+        background-color: rgba(34, 34, 34, 0.03);
+        bottom: 0;
+        overflow-x: hidden;
+        padding-bottom: 40px;
+    }
+
+    .side-nav>li>a {
+        width: 225px;
+        color: rgba(115, 115, 115, 0.86);
+    }
+
+    .side-nav li a:hover,
+    .side-nav li a:focus {
+        outline: none;
+        background: rgba(114, 114, 114, 0.12) !important;
+    }
+}
+@media(max-width: 767px) {
+    .side-nav {
+        margin-top: 55px;
+        padding: 0 10px;
+    }
+    .collapse-btn{
+        position: fixed;
+        top: -2px;
+        z-index: 9999;
+        right: 10px;
+        margin: 10px 15px;
+        color: rgba(243, 243, 243, 0.56);
+    }
+}

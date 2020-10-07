@@ -1,0 +1,40 @@
+<!-- <span class="title-header-left text-white font-34">{{ vm.item.cx }}</span> -->
+<div class="col-md-12 top-margin-sm">
+    <a  class="btn dark-grey btn-sm"
+        ng-click = "vm.back()">
+        <i class = "fa fa-reply fa-lg"></i> Back
+    </a>
+</div>
+<div class= "col-md-12 top-margin-sm">
+    <div class="row" ng-if="vm['radiologist']">
+        <div class="col-md-12 well font-18">
+            <div class="row">
+                <h4>Patient information:</h4>
+            </div>
+            <div class="row">
+                <ul class="list-unstyled">
+                    <li>
+                        <i class="fa fa-fw fa-venus-mars"></i> &nbsp; {{ vm.item.cxr_sex }}
+                    </li>
+                    <li>
+                        <i class="fa fa-fw fa-clock-o"></i> &nbsp; {{ vm.item.cxr_age }}
+                    </li>
+                </ul>
+            </div>
+            <div class="row">
+                <h4>Image:</h4>
+            </div>
+            <div class="row">
+                <img  class="zoom" ng-src="{{ vm.imageUrl }}" style="width: 50%; padding-bottom: 10px; padding-right: 10px; padding-top: 10px; padding-left: 10px"/>
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-if="vm['physician']">
+        <div class="col-md-6 well font-18">
+            <div class="row">
+                <h4>Case Report Form</h4>
+            </div>
+            
+        </div>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+<button class="visible-xs collapse-btn navbar-toggle" ng-init="navCollapsed=true" >
+    <span>
+        <i class="fa fa-bars fa-lg" ></i>
+    </span>
+</button>
+<div class="side-nav navbar-collapse collapse">
+    <ul class="nav navbar-nav side-nav font-18">
+        <li ui-sref-active="active">
+            <a ui-sref="app.dashboard">
+                <i class="fa fa-fw fa-file-text-o"></i> Instructions
+            </a>
+        </li>
+        <li ui-sref-active="active">
+            <a ui-sref="app.unaided({ page:1, size:10 })" >
+                <i class="fa fa-fw fa-stethoscope"></i> Unaided Track
+            </a>
+        </li>
+        <li ui-sref-active="active" >
+            <a ui-sref="app.aided({ page:1, size:10 })">
+                <i class="fa fa-fw fa-laptop-medical"></i> Aided Track
+            </a>
+        </li>
+    </ul>
+</div>

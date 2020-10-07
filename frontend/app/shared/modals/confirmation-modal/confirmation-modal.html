@@ -1,0 +1,26 @@
+<div class="modal-header bg-primary">
+    <span class="text-uppercase lead">
+        {{ vm.content.header }}
+       <button  type="button" 
+                class="close"
+                ng-click="vm.cancel()" 
+                data-dismiss="modal" 
+                aria-hidden="true">&times;</button>
+    </span>
+
+</div>
+ 
+<div class="modal-body clearfix">
+    <i class="fa fa-question-circle fa-3x pull-left" 
+        aria-hidden="true"></i>
+        <p>{{ vm.content.message }}</p>
+    <div class="top-margin-sm pull-right" align="center">
+        <button type="button" 
+                class="btn btn-sm btn-cancel text-uppercase" 
+                ng-click="vm.cancel()" > Cancel </button>
+        <button type="button"
+                class="btn btn-sm btn-primary text-uppercase" 
+                ng-click="vm.approve()" > Okay </button>
+                <!-- {{vm.content.btn_name || 'Ok'}} -->
+    </div>
+</div>

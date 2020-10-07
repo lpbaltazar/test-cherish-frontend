@@ -1,0 +1,37 @@
+<div class="wrapper"  align="center">
+    <img src="assets/img/logo.png" style="padding-bottom: 80px;"/> 
+    <div class="text-uppercase">
+        <div class="btn-group" uib-dropdown dropdown-append-to-body>
+            <button id="btn-append-to-body" type="button" class="btn btn-primary" uib-dropdown-toggle style="width:162px;"> {{ vm.default_user.name }} <span class="caret"></span> </button>
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body" style="left:567px !important;">
+                <li role="menuitem" ng-repeat="user in vm.user_types"><a ng-click="vm.selectUser(user)">{{ user.name }}</a></li>
+            </ul>
+        </div>
+    </div>
+    <form class="form-signin" align="left" ng-submit="vm.login(user)" name="formlogin"> 
+        <div class="" align="center">
+            <div class="white-text" >
+                <i class="fa fa-user  fa-4x"  ></i>
+            </div>                      
+        </div>    
+        <br> 
+        <div class="col-md-12">
+            <input class="form-control" id="email" type="text" name="email" ng-model="user.email" required="" > 
+            <label for="email">Email Address</label>
+        </div>
+        <div class="col-md-12">
+            <input class="form-control" id="password" type="password" ng-disabled="isPassword"  ng-model="user.password" required="" >
+            <label for="password">Password</label>
+        </div>
+        <button class="btn btn-block btn-lg btn-primary text-uppercase" ng-disabled="disable">
+            <span ng-if="disable">                                  
+                <i class="fa fa-circle-o-notch fa-spin"></i>{{ vm.loading }}
+            </span>
+            <span ng-if="!vm.disable">{{ vm.log }}</span>
+        </button>
+    </form>
+    <br />
+    <div class="" align="center">
+        <a class="teal-text" ng-click="vm.handleForgotPassword()" >Forgot Password</a>
+    </div>
+</div>
