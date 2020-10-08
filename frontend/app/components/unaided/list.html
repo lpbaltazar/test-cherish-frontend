@@ -12,8 +12,11 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="item in vm.items">
-                            <td><a ui-sref="app.unaided-details({ id:item.cxr_accession_number })" >{{ item.cxr_id}}</a></td>
-                            <td>Complete</td>
+                            <td><a ui-sref="app.unaided-details({ id:item.cxr_accession_number })" >{{ item.count}}</a></td>
+                            <td>
+                                <span ng-show="item.diagnosis_created == null"> Pending</span>
+                                <span ng-show="item.diagnosis_created != null"> Done</span>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

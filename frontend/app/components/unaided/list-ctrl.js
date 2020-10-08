@@ -32,6 +32,7 @@
         // vm.handleDeactivateItem     = handleDeactivateItem;
         // vm.deactivate               = deactivate;
         vm.retrieveCXR              = retrieveCXR;
+        vm.addCount                 = addCount;
 
 
         init();
@@ -50,8 +51,6 @@
                 size: vm.pagination.size
             };
             search = (vm.search_text == '') ? '':search;
-            console.log(params)
-            console.log($stateParams)
 
             if(vm.user.role === 'physician'){
                 var request = {
@@ -77,11 +76,20 @@
                     vm.items            = response.data.data.items; 
                     vm.pagination.page = $stateParams.page || 1;
                     vm.pagination.total = response.data.data.total;
+                    console.log($stateParams)
                     console.log(vm.items)
+                    addCount(vm.items)
                 }, function (error) {
                     console.log(error);
                     logger.error(error.data.errors[0].message);
                 });
+        };
+
+
+        function addCount( items ) {
+            for ( var i=0; i<items.length; i++ ) {
+                items[i]["count"] = i+1
+            };
         };
 
 
