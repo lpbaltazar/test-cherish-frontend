@@ -1,0 +1,54 @@
+<span class="title-header-left text-white font-34">CXR Images</span>
+<div class="col-md-12 top-margin-sm">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                   <thead>
+                        <tr>
+                            <th>CXR ID</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in vm.items">
+                            <td><a ui-sref="app.unaided-details({ id:item.cxr_accession_number })" >{{ item.count}}</a></td>
+                            <td>
+                                <span ng-show="item.diagnosis_created == null"> Pending</span>
+                                <span ng-show="item.diagnosis_created != null"> Done</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-sm-5 col-xs-4">
+            <ul uib-pagination ng-model="vm.pagination.page" ng-click="vm.currentPage(vm.pagination.page)" boundary-links="true" total-items="vm.pagination.total" class="pagination" items-per-page="vm.pagination.size" max-size="5" force-ellipses="true" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="First" last-text="Last" >
+            </ul>
+        </div>
+        <div class="col-md-6 col-sm-7 col-xs-8" align="right">
+            <nav>
+                <ul class="pagination" >
+                    <li class="disabled" ><a  href="" >Display</a></li>
+                    <li ng-class="{'active':vm.pagination.size==10}" >
+                        <a ui-sref="app.aided({ page:1, size:10 })" >10</a>
+                    </li>
+                    <li ng-class="{'active':vm.pagination.size==15}" >
+                        <a ui-sref="app.aided({ page:1, size:15 })" >15</a>
+                    </li>
+                    <li ng-class="{'active':vm.pagination.size==20}" >
+                        <a ui-sref="app.aided({ page:1, size:20 })" >20</a>
+                    </li>
+                    <li ng-class="{'active':vm.pagination.size==30}" >
+                        <a ui-sref="app.aided({ page:1, size:30 })">30</a>
+                    </li>
+                    <li ng-class="{'active':vm.pagination.size==50}" >
+                        <a ui-sref="app.aided({ page:1, size:50 })" >50</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
