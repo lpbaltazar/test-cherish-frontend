@@ -97,18 +97,31 @@
                 header: 'Confirm Diagnosis',
                 message: 'Do you want to confirm diagnosis?'
             };
+
+            if (vm.user.role == "physician") {
+                var request = {
+                                method  : 'PUT',
+                                body    : {diagnosis_unaided_notes: vm.diagnosis_unaided_notes},
+                                params  : false,
+                                hasFile : false,
+                                route   : { "physician/diagnosis": vm.item.diagnosis_accession_number, 'track': 'unaided' }
+                            };
+
+            } else {
+                var request = {
+                                method  : 'PUT',
+                                body    : {diagnosis_unaided_notes: vm.diagnosis_unaided_notes},
+                                params  : false,
+                                hasFile : false,
+                                route   : { "radiologist/diagnosis": vm.item.diagnosis_accession_number, 'track': 'unaided' }
+                            };
+            };
             
             ModalService.confirm_modal(content).then( function (response) {
 
                     if (response) {
                          QueryService
-                            .query({
-                                method  : 'PUT',
-                                body    : {diagnosis_unaided: vm.diagnosis},
-                                params  : false,
-                                hasFile : false,
-                                route   : { 'physician/diagnosis': vm.item.diagnosis_accession_number, 'track': 'unaided' }
-                            })
+                            .query(request)
                             .then( function (response) { 
                                 logger.success('Successfully published diagnosis');
                                 init();
@@ -128,17 +141,31 @@
                 header: 'Confirm Notes',
                 message: 'Do you want to confirm notes?'
             };
-            ModalService.confirm_modal(content).then( function (response) {
 
-                    if (response) {
-                         QueryService
-                            .query({
+            if (vm.user.role == "physician") {
+                var request = {
                                 method  : 'PUT',
                                 body    : {diagnosis_unaided_notes: vm.diagnosis_unaided_notes},
                                 params  : false,
                                 hasFile : false,
-                                route   : { 'physician/diagnosis': vm.item.diagnosis_accession_number, 'track': 'unaided' }
-                            })
+                                route   : { "physician/diagnosis": vm.item.diagnosis_accession_number, 'track': 'unaided' }
+                            };
+
+            } else {
+                var request = {
+                                method  : 'PUT',
+                                body    : {diagnosis_unaided_notes: vm.diagnosis_unaided_notes},
+                                params  : false,
+                                hasFile : false,
+                                route   : { "radiologist/diagnosis": vm.item.diagnosis_accession_number, 'track': 'unaided' }
+                            };
+            };
+
+            ModalService.confirm_modal(content).then( function (response) {
+
+                    if (response) {
+                         QueryService
+                            .query(request)
                             .then( function (response) { 
                                 logger.success('Successfully published notes');
                                 init();
