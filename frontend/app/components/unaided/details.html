@@ -1,4 +1,4 @@
-<!-- <span class="title-header-left text-white font-34">{{ vm.item.cx }}</span> -->
+<span class="title-header-left text-white font-34">Unaided Evaluation</span>
 <div class="col-md-12 top-margin-sm">
     <a  class="btn dark-grey btn-sm"
         ng-click = "vm.back()">
@@ -7,34 +7,236 @@
 </div>
 <div class= "col-md-12 top-margin-sm">
     <div class="row" ng-if="vm['radiologist']">
-        <div class="col-md-12 well font-18">
-            <div class="row">
-                <h4>Patient information:</h4>
+        <div class="wrapper-radiologist">
+            <div class="box1-radiologist well padding-pls image-container">
+                <img ng-src="{{ vm.imageUrl }}" style="width: 75%; padding-top: 20px;"/>
             </div>
-            <div class="row">
-                <ul class="list-unstyled">
-                    <li>
-                        <i class="fa fa-fw fa-venus-mars"></i> &nbsp; {{ vm.item.cxr_sex }}
-                    </li>
-                    <li>
-                        <i class="fa fa-fw fa-clock-o"></i> &nbsp; {{ vm.item.cxr_age }}
-                    </li>
-                </ul>
+            <div class="box2-radiologist well padding-pls">
+                <h3 class="text-blue-grey">Patient Information</h3>
+                <span class="font-18">Sex: {{vm.item.cxr_sex}}</span>
+                <br />
+                <span class="font-18">Age: {{vm.item.cxr_age}}</span>
             </div>
-            <div class="row">
-                <h4>Image:</h4>
+            <div class="box3-radiologist well padding-pls">
+                <h3 class="text-blue-grey">Notes</h3>
             </div>
-            <div class="row">
-                <img  class="zoom" ng-src="{{ vm.imageUrl }}" style="width: 50%; padding-bottom: 10px; padding-right: 10px; padding-top: 10px; padding-left: 10px"/>
+            <div class="box4-radiologist well padding-pls">
+                <h3 class="text-blue-grey">Diagnosis</h3>
+                <!-- <span class="font-24"><strong>Select Diagnosis: </strong></span> -->
+                <div class="btn-group" uib-dropdown ng-show="!vm.item.diagnosis_diagnosis_unaided">
+                    <button id="unaided-diagnosis" class="btn" type="button" uib-dropdown-toggle ng-disabled="vm.item.diagnosis_diagnosis_unaided">
+                        {{ vm.item.diagnosis_diagnosis_unaided }}
+                    <span class="caret"></span></button>
+                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="unaided-diagnosis">
+                        <li role="menuitem"><a ng-click="vm.setDiagnosis('abnormal')">Abnormal Non-pneumonia</a></li>
+                        <li role="menuitem"><a ng-click="vm.setDiagnosis('covid')">COVID Pneumonia</a></li>
+                        <li role="menuitem"><a ng-click="vm.setDiagnosis('pneumonia')">Non-COVID Pneumonia</a></li>
+                        <li role="menuitem"><a ng-click="vm.setDiagnosis('normal')">Normal</a></li>
+                    </ul>
+                </div>
+                <button class="btn default" type="button" ng-click="vm.publishDiagnosis(vm.item)" ng-if="vm.diagnosis" ng-show="!vm.item.diagnosis_diagnosis_unaided">Confirm</button>
+                <span class="label label-success text-large font-24" ng-show="vm.item.diagnosis_diagnosis_unaided==='normal'">Normal</span>
+                <span class="label label-danger text-large font-24" ng-show="vm.item.diagnosis_diagnosis_unaided==='covid'">COVID Pneumonia</span>
+                <span class="label label-primary text-large font-24" ng-show="vm.item.diagnosis_diagnosis_unaided==='abnormal'">Abnormal Non-pneumonia</span>
+                <span class="label label-warning text-large font-24" ng-show="vm.item.diagnosis_diagnosis_unaided==='NONCOVID'">Non-COVID Pneumonia</span>
+                <br />
+                <span>{{ vm.item.finding_integrated_diagnosis_created | date: 'MMMM dd, yyyy hh:mm' }}</span>
+                <br />
             </div>
-        </div>
+        </div> 
     </div>
-    <div class="row" ng-if="vm['physician']">
-        <div class="col-md-6 well font-18">
-            <div class="row">
-                <h4>Case Report Form</h4>
+    <div ng-if="vm['physician']">
+        <div class="wrapper-physician-1">
+            <div class="box1-physician-1 well padding-pls image-container">
+                <img ng-src="{{ vm.imageUrl }}" style="width: 75%; padding-top: 20px;"/>
             </div>
-            
+            <div class="box2-physician-1 well padding-pls">
+                <h3 class="text-blue-grey"><strong>Clinical Data</strong></h3>
+                <div class="table-responsive table-wrapper-scroll-y my-custom-scrollbar">
+                    <table class="table table-bordered table-hover">
+                        <tbody>
+                            <tr>
+                                <td>Age</td>
+                                <td>{{ vm.item.cxr_age }}</td>
+                            </tr>
+                            <tr>
+                                <td>Sex</td>
+                                <td>{{ vm.item.cxr_sex }}</td>
+                            </tr>
+                            <tr>
+                                <td>Weight</td>
+                                <td>{{ vm.item.cxr_weight }}</td>
+                            </tr>
+                            <tr>
+                                <td>Height</td>
+                                <td>{{ vm.item.cxr_height }}</td>
+                            </tr>
+                            <tr>
+                                <td>BMI</td>
+                                <td>{{ vm.item.cxr_bmi }}</td>
+                            </tr>
+                            <tr>
+                                <td>Cardiovascular Disease</td>
+                                <td>{{ vm.item.cxr_cardiovascular_disease }}</td>
+                            </tr>
+                            <tr>
+                                <td>Cardiovascular Disease</td>
+                                <td>{{ vm.item.cxr_cardiovascular_disease }}</td>
+                            </tr>
+                            <tr>
+                                <td>Diabetes</td>
+                                <td>{{ vm.item.cxr_diabetes }}</td>
+                            </tr>
+                            <tr>
+                                <td>Cardiovascular Disease</td>
+                                <td>{{ vm.item.cxr_cardiovascular_disease }}</td>
+                            </tr>
+                            <tr>
+                                <td>Liver Disease</td>
+                                <td>{{ vm.item.cxr_liver_disease }}</td>
+                            </tr>
+                            <tr>
+                                <td>Renal Disease</td>
+                                <td>{{ vm.item.cxr_renal_disease }}</td>
+                            </tr>
+                            <tr>
+                                <td>Renal Disease</td>
+                                <td>{{ vm.item.cxr_renal_disease }}</td>
+                            </tr>
+                            <tr>
+                                <td>Chronic Neurologic or Neuromuscular Disease</td>
+                                <td>{{ vm.item.cxr_chronic_neurologic_or_neuromuscular_disease }}</td>
+                            </tr>
+                            <tr>
+                                <td>Immunodeficiency</td>
+                                <td>{{ vm.item.cxr_immunodeficiency }}</td>
+                            </tr>
+                            <tr>
+                                <td>Chronic Lung Disease</td>
+                                <td>{{ vm.item.cxr_chronic_lung_disease }}</td>
+                            </tr>
+                            <tr>
+                                <td>Chronic Lung Disease Specify</td>
+                                <td>{{ vm.item.cxr_chronic_lung_disease_specify }}</td>
+                            </tr>
+                            <tr>
+                                <td>Malignancy</td>
+                                <td>{{ vm.item.cxr_malignancy }}</td>
+                            </tr>
+                            <tr>
+                                <td>Malignancy Specify</td>
+                                <td>{{ vm.item.cxr_malignancy_specify }}</td>
+                            </tr>
+                            <tr>
+                                <td>Other co-morbid illnesses, specify</td>
+                                <td>{{ vm.item.cxr_other_comorbid_illness_specify }}</td>
+                            </tr>
+                            <tr>
+                                <td>Systolic Blood Pressure</td>
+                                <td>{{ vm.item.cxr_systolic_clood_pressure }} mmHg</td>
+                            </tr>
+                            <tr>
+                                <td>Diastolic Blood Pressure</td>
+                                <td>{{ vm.item.cxr_diastolic_blood_pressure }} mmHg</td>
+                            </tr>
+                            <tr>
+                                <td>Heart Rate</td>
+                                <td>{{ vm.item.cxr_heart_rate}} beats per min</td>
+                            </tr>
+                            <tr>
+                                <td>Respiratory Rate</td>
+                                <td>{{ vm.item.cxr_respiratory_rate }} beats per min</td>
+                            </tr>
+                            <tr>
+                                <td>Temperature</td>
+                                <td>{{ vm.item.cxr_temperature }} &deg;Celsius</td>
+                            </tr>
+                            <tr>
+                                <td>Oxygen Saturation</td>
+                                <td>{{ vm.item.cxr_O2_saturation }}%</td>
+                            </tr>
+                            <tr>
+                                <td>P/R Ratio</td>
+                                <td>{{ vm.item.cxr_pfratio }}</td>
+                            </tr>
+                            <tr>
+                                <td>Lung examination</td>
+                                <td>{{ vm.item.cxr_lung_exam }}</td>
+                            </tr>
+                            <tr>
+                                <td>Lung examination other:</td>
+                                <td>{{ vm.item.cxr_lung_exam_other_specify }}</td>
+                            </tr>
+                            <tr>
+                                <td>Hemoglobin</td>
+                                <td>{{ vm.item.cxr_hemoglobin }}</td>
+                            </tr>
+                            <tr>
+                                <td>WBC Count</td>
+                                <td>{{ vm.item.cxr_WBCcount }}</td>
+                            </tr>
+                            <tr>
+                                <td>Neutrophil Count</td>
+                                <td>{{ vm.item.cxr_neutrophils }}</td>
+                            </tr>
+                            <tr>
+                                <td>Lymphocyte</td>
+                                <td>{{ vm.item.cxr_platelets }}</td>
+                            </tr>
+                            <tr>
+                                <td>D-dimer</td>
+                                <td>{{ vm.item.cxr_Ddimer }}</td>
+                            </tr>
+                            <tr>
+                                <td>Procalcitonin</td>
+                                <td>{{ vm.item.cxr_procalcitonin }}</td>
+                            </tr>
+                            <tr>
+                                <td>Ferritin</td>
+                                <td>{{ vm.item.cxr_ferritin }}</td>
+                            </tr>
+                            <tr>
+                                <td>eGFR</td>
+                                <td>{{ vm.item.cxr_EGFRbycystatinc }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h3 class="text-blue-grey">Impression</h3>
+                <span class="white" style="text-align: justify; display:block;">{{ vm.item.cxr_cxr_result }}</span>
+            </div>
+            <div class="box3-physician-1 well padding-pls">
+                <h3 class="text-blue-grey">Physician Notes: </h3>
+                <div class="form-group" ng-show="!vm.item.diagnosis_diagnosis_unaided_notes">
+                    <textarea name="diagnosis_unaided_notes" id="diagnosis_unaided_notes" class="form-control white" ng-model="vm.diagnosis_unaided_notes" rows="2"></textarea>
+                </div>
+                <div class="form-group" ng-show="!vm.item.diagnosis_diagnosis_unaided_notes">
+                    <button class="btn default" type="button" ng-click="vm.publishNotes(vm.item)" ng-if="vm.diagnosis_unaided_notes">Submit</button>
+                </div>
+                <span class="white" style="text-align: justify; display:block;" ng-show="vm.item.diagnosis_diagnosis_unaided_notes">{{ vm.item.diagnosis_diagnosis_unaided_notes }}</span>
+            </div>
+            <div class="box4-physician-1 well padding-pls">
+                <h3 class="text-blue-grey">Diagnosis: </h3>
+                <div class="btn-group" uib-dropdown ng-show="!vm.item.diagnosis_created">
+                    <button id="unaided-diagnosis" class="btn" type="button" uib-dropdown-toggle ng-disabled="vm.item.diagnosis_created">
+                        {{ vm.item.diagnosis_diagnosis_unaided }}
+                    <span class="caret"></span></button>
+                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="unaided-diagnosis">
+                        <li role="menuitem"><a ng-click="vm.setDiagnosis('abnormal')">Abnormal Non-pneumonia</a></li>
+                        <li role="menuitem"><a ng-click="vm.setDiagnosis('covid')">COVID Pneumonia</a></li>
+                        <li role="menuitem"><a ng-click="vm.setDiagnosis('pneumonia')">Non-COVID Pneumonia</a></li>
+                        <li role="menuitem"><a ng-click="vm.setDiagnosis('normal')">Normal</a></li>
+                    </ul>
+                </div>
+                <button class="btn default" type="button" ng-click="vm.publishDiagnosis(vm.item)" ng-if="vm.diagnosis" ng-show="!vm.item.diagnosis_created">Confirm</button>
+                <span class="label label-success text-large font-24" ng-show="vm.item.diagnosis_diagnosis_unaided==='normal' && vm.item.diagnosis_created">Normal</span>
+                <span class="label label-danger text-large font-24" ng-show="vm.item.diagnosis_diagnosis_unaided==='covid' && vm.item.diagnosis_created">COVID Pneumonia</span>
+                <span class="label label-primary text-large font-24" ng-show="vm.item.diagnosis_diagnosis_unaided==='abnormal' && vm.item.diagnosis_created">Abnormal Non-pneumonia</span>
+                <span class="label label-warning text-large font-24" ng-show="vm.item.diagnosis_diagnosis_unaided==='pneumonia' && vm.item.diagnosis_created">Non-COVID Pneumonia</span>
+                <br />
+                <span>{{ vm.item.diagnosis_created | date: 'MMMM dd, yyyy hh:mm' }}</span>
+                <br />
+            </div>  
         </div>
     </div>
 </div>

@@ -76,9 +76,8 @@
                     vm.items            = response.data.data.items; 
                     vm.pagination.page = $stateParams.page || 1;
                     vm.pagination.total = response.data.data.total;
-                    console.log($stateParams)
-                    console.log(vm.items)
                     addCount(vm.items)
+                    // console.log(vm.items)
                 }, function (error) {
                     console.log(error);
                     logger.error(error.data.errors[0].message);
