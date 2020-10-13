@@ -80,7 +80,7 @@
                     vm.pagination.page = $stateParams.page || 1;
                     vm.pagination.total = response.data.data.total;
                     addCount(vm.items)
-                    // console.log(vm.items)
+                    vm.originalitems    = vm.items;
                 }, function (error) {
                     console.log(error);
                     logger.error(error.data.errors[0].message);

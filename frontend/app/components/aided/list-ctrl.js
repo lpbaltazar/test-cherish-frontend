@@ -23,6 +23,7 @@
         vm.pagination.size          = $stateParams.size || 10;
 
         vm.items                    = [];
+        vm.originalitems            = [];
         vm.user                     = $cookies.getObject('user');
 
         // methods 
@@ -79,9 +80,9 @@
                     shuffle(vm.items);
                     shuffle(vm.items);
                     shuffle(vm.items);
-                    console.log(vm.items);
                     addCount(vm.items)
-                    console.log(vm.items);
+                    vm.originalitems    = vm.items;
+                    console.log(vm.items)
                 }, function (error) {
                     console.log(error);
                     logger.error(error.data.errors[0].message);
@@ -114,6 +115,24 @@
         function currentPage(page) {
             vm.pagination.page = page;
             $state.go('app.aided', {page: page, size: $stateParams.size});
+        };
+
+
+        function filterTable(status) {
+            var originalitems = vm.originalitems;
+
+            if (status === "All") {
+                vm.items = originalitems;
+            } else if (status === "Done") {
+                let items = vm.originalitems.filter(it => it.diagnosis_diagnosis_aided_created !== null);
+                vm.items = items;
+            } else {
+                let items = vm.originalitems.filter(it => it.diagnosis_diagnosis_aided_created === null);
+                vm.items = items;
+            }
+
+            x => x !== null
+            console.log(vm.items)
         };
 
 
