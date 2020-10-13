@@ -2,8 +2,11 @@
 <div class="col-md-12 top-margin-sm">
     <div class="row">
         <div class="col-md-12">
+            <select id="statusDropdown" ng-options="status for status in ['All', 'Done', 'Pending']" ng-model = "status" ng-change="vm.filterTable(status)">
+                <option  value="" label="Filter Status" disabled selected="selected"></option>
+            </select>
             <div class="table-responsive">
-                <table class="table table-hover">
+                <table class="table table-hover" id="cxrList">
                    <thead>
                         <tr>
                             <th>CXR ID</th>
@@ -14,8 +17,8 @@
                         <tr ng-repeat="item in vm.items">
                             <td><a ui-sref="app.unaided-details({ id:item.cxr_accession_number })" >{{ item.count}}</a></td>
                             <td>
-                                <span ng-show="item.diagnosis_created == null"> Pending</span>
-                                <span ng-show="item.diagnosis_created != null"> Done</span>
+                                <span class="text-blue" ng-show="item.diagnosis_updated == null"> PENDING</span>
+                                <span class="text-green" ng-show="item.diagnosis_updated != null"> DONE</span>
                             </td>
                         </tr>
                     </tbody>
