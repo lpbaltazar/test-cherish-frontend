@@ -1,101 +1,83 @@
-<span class="title-header-left text-white font-34">Dashboard</span>
-<!-- <div class="col-md-12 top-margin-sm clearfix">  
-	<div class="row">
-		<div class="col-md-3">
+<span class="title-header-left text-white font-34">Instructions</span>
+<div class="col-md-12 top-margin-sm clearfix"> 
+	<div ng-if="vm['radiologist']">
+		<div>
 			<div class="row">
-				<div class="col-md-10 col-md-offset-1 text-center aqua">
-					<span class="text-white font-34">Assisted</span>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-10 col-md-offset-1 text-center  denim-blue">
-					<h1 class="text-white">50%</h1>
-					<span class="text-light-grey font-24">3 of 6 DONE<br/><br/>
-					</span>
-				</div>
+				<h3 class="text-blue-grey">Workflow</h3>
+			</div>	
+			<div class="row image-container">
+				<img src = "../../../assets/img/radiologist_workflow.png" style="width: 75%; padding-top: 20px;"/> 	
 			</div>
 		</div>
-		<div class="col-md-3">
-			<div class="row">
-				<div class="col-md-10 col-md-offset-1 text-center aqua">
-					<span class="text-white font-34">Official</span>
-				</div>
+		<br />
+		<div class= "row">
+			<div class="col-md-6 well padding-pls">
+				<h3 class="text-blue-grey">Instructions</h3>
+				<h5>Unaided Evaluation</h5>
+				<ol class="font-18">
+					<li>Click Unaided Track in the side navigator.</li>
+					<li>Select CXR image to evaluate.</li>
+					<li>Evaluate CXR image and Patient Data (age, and sex) by entering notes and diagnosis.</li>
+					<li>Repeat for all CXR image.</li>
+				</ol>
+				<h5>Aided Evaluation</h5>
+				<ol class="font-18">
+					<li>Click Aided Track in the side navigator.</li>
+					<li>Select CXR image to evaluate.</li>
+					<li>Evaluate CXR image, Patient Data (age, and sex), and Risk Scores by entering notes and diagnosis.</li>
+					<li>Repeat for all CXR image.</li>
+				</ol>
 			</div>
-			<div class="row">
-				<div class="col-md-10 col-md-offset-1 text-center denim-blue">
-					<h1 class="text-white">25%</h1>
-					<span class="text-light-grey font-24">2 of 8 DONE<br/><br/>
-					</span>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="row">
-				<div class="col-md-10 col-md-offset-1 text-center aqua">
-					<span class="text-white font-34">Shared by Me</span>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-10 col-md-offset-1 text-center denim-blue">
-					<h1 class="text-white">71%</h1>
-					<span class="text-light-grey font-24">5 of 7 DONE<br/><br/>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="row">
-				<div class="col-md-10 col-md-offset-1 text-center aqua">
-					<span class="text-white font-34">Shared to Me</span>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-10 col-md-offset-1 text-center denim-blue">
-					<h1 class="text-white">31%</h1>
-					<span class="text-light-grey font-24">4 of 13 DONE<br/><br/>
-				</div>
+			<div class="col-md-6 well padding-pls">
+				<h3 class="text-blue-grey">Notes</h3>
+				<ul class="font-18">
+					<li>Radiologist can only proceed to the Aided track after evaluation of all CXR images (216 instances).</li>
+					<li>Editing of the diagnosis is not allowed once the radiologist change patients.</li>
+					<li>Diagnostic classes are: Normal, Abnormal non-pneumonia, Non-COVID Pneumonia, COVID-Pneumonia</li>
+					<li>Doctor-to-doctor consultation is NOT allowed</li>
+					<li>Images are shuffled in preparation for AI Aided session</li>
+				</ul>
 			</div>
 		</div>
 	</div>
-	<div class="col-md-12 top-margin-sm clearfix"><br /></div>
-	<div class="col-md-12 top-margin-sm clearfix"><br /></div>
-	<div class="col-md-12 top-margin-sm clearfix"><br /></div>
-	<div class="row">
-		<div class="col-md-4">
-
+	<div ng-if="vm['physician']">
+		<div>
 			<div class="row">
-				<div class="col-md-10 col-md-offset-1 text-center">
-					<span class="font-34"><strong>87%</strong> Overall Accuracy</span>
-					<canvas id="accuracy-graph"></canvas>
-					</span>
-					<br />
-				</div>
+				<h3 class="text-blue-grey">Workflow</h3>
+			</div>	
+			<div class="row image-container">
+				<img src = "../../../assets/img/physician_workflow.png" style="width: 75%; padding-top: 20px;"/> 	
 			</div>
 		</div>
-		<div class="col-md-4">
-			<div class="row">
-				<div class="col-md-10 col-md-offset-1 text-center">
-					<span class="font-34"><strong>98%</strong> Positives Accuracy</span>
-					<canvas id="positive-graph"></canvas>
-					<br />
-				</div>
+		<br />
+		<div class= "row">
+			<div class="col-md-6 well padding-pls">
+				<h3 class="text-blue-grey">Instructions</h3>
+				<h5>Unaided Evaluation</h5>
+				<ol class="font-18">
+					<li>Click Unaided Track in the side navigator.</li>
+					<li>Select CXR image to evaluate.</li>
+					<li>Evaluate CXR image, clinical data, and radiologist impression by entering notes and diagnosis.</li>
+					<li>Repeat for all CXR image.</li>
+				</ol>
+				<h5>Aided Evaluation</h5>
+				<ol class="font-18">
+					<li>Click Aided Track in the side navigator.</li>
+					<li>Select CXR image to evaluate.</li>
+					<li>Evaluate CXR image, clinical data, and radiologist impression and Risk Scores by entering notes and diagnosis.</li>
+					<li>Repeat for all CXR image.</li>
+				</ol>
 			</div>
-		</div>
-		<div class="col-md-4">
-			<div class="row">
-				<div class="col-md-10 col-md-offset-1 text-center">
-					<span class="font-34"><strong>78%</strong> Negatives Accuracy</span>
-					<canvas id="negative-graph"></canvas>
-					<br />
-				</div>
+			<div class="col-md-6 well padding-pls">
+				<h3 class="text-blue-grey">Notes</h3>
+				<ul class="font-18">
+					<li>Physician can only proceed to the Aided track after evaluation of all CXR images (216 instances).</li>
+					<li>Editing of the diagnosis is not allowed once the physician change patients.</li>
+					<li>Diagnostic classes are: Normal, Abnormal non-pneumonia, Non-COVID Pneumonia, COVID-Pneumonia</li>
+					<li>Doctor-to-doctor consultation is NOT allowed</li>
+					<li>Images are shuffled in preparation for AI Aided session</li>
+				</ul>
 			</div>
-		</div>
-		<div class="col-md-3">
-			
-		</div>
-		<div class="col-md-3">
-			
 		</div>
 	</div>
-	
 </div>
- -->
