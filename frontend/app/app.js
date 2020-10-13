@@ -68,52 +68,10 @@
                 controllerAs    : 'vm'
             })
 
-            .state('app.findings-details', {
-                url             : 'physician/findings/:id',  
-                templateUrl     : 'app/components/findings/details.html',
-                controller      : 'FindingDetailsCtrl',
-                controllerAs    : 'vm'
-            })
-
-            .state('app.clinical-comorbid', {
-                url             : 'findings/:id/comorbid',  
-                templateUrl     : 'app/components/clinicaldata/comorbid-illness.html',
-                controller      : 'ComorbidCtrl',
-                controllerAs    : 'vm'
-            })
-
-            .state('app.clinical-physicalexam', {
-                url             : 'findings/:id/physicalexam',  
-                templateUrl     : 'app/components/clinicaldata/physical-examination.html',
-                controller      : 'PhysicalExamCtrl',
-                controllerAs    : 'vm'
-            })
-
-            .state('app.clinical-symptom', {
-                url             : 'findings/:id/symptom',  
-                templateUrl     : 'app/components/clinicaldata/symptoms.html',
-                controller      : 'SymptomCtrl',
-                controllerAs    : 'vm'
-            })
-
-            .state('app.clinical-outcome', {
-                url             : 'findings/:id/outcome',  
-                templateUrl     : 'app/components/clinicaldata/outcome.html',
-                controller      : 'OutcomeCtrl',
-                controllerAs    : 'vm'
-            })
-
-            .state('app.uploads', {
-                url             : 'uploads?page&size',  
-                templateUrl     : 'app/components/uploads/list.html',
-                controller      : 'UploadsListCtrl',
-                controllerAs    : 'vm'
-            })
-
-            .state('app.upload-detail', {
-                url             : 'radiologist/findings/:id',  
-                templateUrl     : 'app/components/uploads/details.html',
-                controller      : 'UploadDetailsCtrl',
+            .state('app.aided-details', {
+                url             : 'aided/:id',  
+                templateUrl     : 'app/components/aided/details.html',
+                controller      : 'AidedDetailsCtrl',
                 controllerAs    : 'vm'
             })
 
