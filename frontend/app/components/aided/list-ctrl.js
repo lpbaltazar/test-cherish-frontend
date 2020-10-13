@@ -79,7 +79,9 @@
                     shuffle(vm.items);
                     shuffle(vm.items);
                     shuffle(vm.items);
+                    console.log(vm.items);
                     addCount(vm.items)
+                    console.log(vm.items);
                 }, function (error) {
                     console.log(error);
                     logger.error(error.data.errors[0].message);

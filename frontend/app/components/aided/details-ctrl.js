@@ -3,9 +3,9 @@
 
     angular
         .module('app')
-        .controller('UnaidedDetailsCtrl', UnaidedDetailsCtrl);
+        .controller('AidedDetailsCtrl', AidedDetailsCtrl);
 
-    UnaidedDetailsCtrl.$inject = [
+    AidedDetailsCtrl.$inject = [
         '$scope', 
         '$state', 
         '$cookies',
@@ -15,7 +15,7 @@
         'ModalService'
     ];
 
-    function UnaidedDetailsCtrl ($scope, $state, $cookies, $stateParams, QueryService, logger, ModalService) {
+    function AidedDetailsCtrl ($scope, $state, $cookies, $stateParams, QueryService, logger, ModalService) {
         
         var vm                      = this;
         vm.pagination               = {};
@@ -23,10 +23,11 @@
         vm.pagination.size          = $stateParams.size || 10;
         vm.item                     = {};
         vm.findings                 = [];
-        vm.imageUrl                 = "";
+        vm.imageUrl                 = "https://cherish-cxr.s3-ap-southeast-1.amazonaws.com/orig/1d435a4b.jpg";
+        vm.imageUrlAided            = "https://cherish-cxr.s3-ap-southeast-1.amazonaws.com/grad_cam/1d435a4b.jpg";
         vm.age                      = 0;
         vm.user                     = $cookies.getObject('user');
-        vm.diagnosis_unaided_notes  = "";
+        vm.diagnosis_aided_notes    = "";
 
         // methods 
         vm.back                     = back;
@@ -34,6 +35,7 @@
         vm.setDiagnosis             = setDiagnosis;
         vm.publishDiagnosis         = publishDiagnosis;
         vm.publishNotes             = publishNotes;
+        vm.fixedProbability         = fixedProbability;
 
         init();
 
@@ -101,19 +103,19 @@
             if (vm.user.role == "physician") {
                 var request = {
                                 method  : 'PUT',
-                                body    : {diagnosis_unaided: vm.diagnosis},
+                                body    : {diagnosis_aided: vm.diagnosis},
                                 params  : false,
                                 hasFile : false,
-                                route   : { "physician/diagnosis": vm.item.diagnosis_accession_number, 'track': 'unaided' }
+                                route   : { "physician/diagnosis": vm.item.diagnosis_accession_number, 'track': 'aided' }
                             };
 
             } else {
                 var request = {
                                 method  : 'PUT',
-                                body    : {diagnosis_unaided: vm.diagnosis},
+                                body    : {diagnosis_aided: vm.diagnosis},
                                 params  : false,
                                 hasFile : false,
-                                route   : { "radiologist/diagnosis": vm.item.diagnosis_accession_number, 'track': 'unaided' }
+                                route   : { "radiologist/diagnosis": vm.item.diagnosis_accession_number, 'track': 'aided' }
                             };
             };
             
@@ -145,7 +147,7 @@
             if (vm.user.role == "physician") {
                 var request = {
                                 method  : 'PUT',
-                                body    : {diagnosis_unaided_notes: vm.diagnosis_unaided_notes},
+                                body    : {diagnosis_aided_notes: vm.diagnosis_aided_notes},
                                 params  : false,
                                 hasFile : false,
                                 route   : { "physician/diagnosis": vm.item.diagnosis_accession_number, 'track': 'unaided' }
@@ -154,7 +156,7 @@
             } else {
                 var request = {
                                 method  : 'PUT',
-                                body    : {diagnosis_unaided_notes: vm.diagnosis_unaided_notes},
+                                body    : {diagnosis_aided_notes: vm.diagnosis_aided_notes},
                                 params  : false,
                                 hasFile : false,
                                 route   : { "radiologist/diagnosis": vm.item.diagnosis_accession_number, 'track': 'unaided' }
@@ -177,6 +179,14 @@
                     logger.error(error.data.message);
                 });
             
+        };
+
+
+        function fixedProbability(probability) {
+            var new_prob = probability *100;
+
+            return new_prob.toFixed(2);
+        
         };
 
 
