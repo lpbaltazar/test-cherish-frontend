@@ -20,8 +20,8 @@
                         <tr ng-repeat="item in vm.items">
                             <td><a ui-sref="app.unaided-details({ id:item.cxr_accession_number })" >{{ item.count}}</a></td>
                             <td>
-                                <span class="text-blue" ng-show="item.diagnosis_diagnosis_unaided_finalized == null"> PENDING</span>
-                                <span class="text-green" ng-show="item.diagnosis_diagnosis_unaided_finalized == 1"> DONE</span>
+                                <span class="text-blue" ng-show="!item.finished"> PENDING</span>
+                                <span class="text-green" ng-show="item.finished"> DONE</span>
                             </td>
                         </tr>
                     </tbody>
