@@ -1,4 +1,7 @@
-<span class="title-header-left text-white font-34">CXR Images</span>
+<div class="row">
+    <span class="title-header-left text-white font-34">CXR Images</span>
+    <span class="title-header-right text-white font-34">Completed: {{ vm.diagnosis[0].length }}/20</span>
+</div>
 <div class="col-md-12 top-margin-sm">
     <div class="row">
         <div class="col-md-12">
@@ -17,8 +20,8 @@
                         <tr ng-repeat="item in vm.items">
                             <td><a ui-sref="app.unaided-details({ id:item.cxr_accession_number })" >{{ item.count}}</a></td>
                             <td>
-                                <span class="text-blue" ng-show="item.diagnosis_updated == null"> PENDING</span>
-                                <span class="text-green" ng-show="item.diagnosis_updated != null"> DONE</span>
+                                <span class="text-blue" ng-show="item.diagnosis_diagnosis_unaided_finalized == null"> PENDING</span>
+                                <span class="text-green" ng-show="item.diagnosis_diagnosis_unaided_finalized == 1"> DONE</span>
                             </td>
                         </tr>
                     </tbody>

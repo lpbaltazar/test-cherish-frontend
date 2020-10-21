@@ -25,13 +25,10 @@
         vm.items                    = [];
         vm.originalitems            = [];
         vm.user                     = $cookies.getObject('user');
+        vm.count                    = [];
 
         // methods 
         vm.currentPage              = currentPage;
-        // vm.add                      = add;
-        // vm.update                   = update;
-        // vm.handleDeactivateItem     = handleDeactivateItem;
-        // vm.deactivate               = deactivate;
         vm.retrieveCXR              = retrieveCXR;
         vm.addCount                 = addCount;
         vm.filterTable              = filterTable;
@@ -41,6 +38,7 @@
 
         function init () {
             vm[vm.user.role] = true;
+            // console.log(vm.user)
             retrieveCXR('');
         };
 
@@ -76,11 +74,17 @@
                 .query(request)
                 .then( function (response) { 
                     vm.items            = response.data.data.items; 
-                    vm.originalitems    = vm.items;
-                    vm.pagination.page = $stateParams.page || 1;
+                    vm.diagnosis        = vm.items[vm.items.length - 1];
+                    vm.items            = vm.items.splice(0, vm.items.length - 1);
+                    vm.count            = vm.items[vm.items.length - 1];
+                    vm.items            = vm.items.splice(0, vm.items.length - 1);
+                    vm.pagination.page  = $stateParams.page || 1;
                     vm.pagination.total = response.data.data.total;
                     addCount(vm.items)
                     vm.originalitems    = vm.items;
+                    console.log(vm.items)
+                    console.log(vm.diagnosis[0].length)
+                    console.log(vm.count)
                 }, function (error) {
                     console.log(error);
                     logger.error(error.data.errors[0].message);
@@ -106,15 +110,22 @@
             if (status === "All") {
                 vm.items = originalitems;
             } else if (status === "Done") {
-                let items = vm.originalitems.filter(it => it.diagnosis_updated !== null);
+                let items = vm.originalitems.filter(it => it.diagnosis_diagnosis_unaided_finalized === 1);
                 vm.items = items;
             } else {
-                let items = vm.originalitems.filter(it => it.diagnosis_updated === null);
+                let items = vm.originalitems.filter(it => it.diagnosis_diagnosis_unaided_finalized === null);
                 vm.items = items;
             }
 
             x => x !== null
-            console.log(vm.items)
+            // console.log(vm.items)
+        };
+
+        function filterUser(items) {
+            console.log(items);
+            var user_id = vm.user.id
+            items = items.filter(it => it.diagnosis_user_id === user_id);
+            console.log(items);
         };
 
 
