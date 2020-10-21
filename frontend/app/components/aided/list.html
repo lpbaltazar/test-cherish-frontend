@@ -6,7 +6,7 @@
                 <option  value="" label="Filter Status" disabled selected="selected"></option>
             </select>
             <div class="table-responsive">
-                <table class="table table-hover">
+                <table class="table table-hover" id="cxrList">
                    <thead>
                         <tr>
                             <th>CXR ID</th>
@@ -15,10 +15,10 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="item in vm.items">
-                            <td><a ui-sref="app.aided-details({ id:item.cxr_accession_number })" >{{ item.count}}</a></td>
+                            <td><a ui-sref="app.unaided-details({ id:item.cxr_accession_number })" >{{ item.count}}</a></td>
                             <td>
-                                <span class="text-blue" ng-show="item.diagnosis_diagnosis_aided_finalized == null"> PENDING </span>
-                                <span class="text-green" ng-show="item.diagnosis_diagnosis_aided_finalized != null"> DONE</span>
+                                <span class="text-blue" ng-show="!item.finished"> PENDING</span>
+                                <span class="text-green" ng-show="item.finished"> DONE</span>
                             </td>
                         </tr>
                     </tbody>

@@ -107,7 +107,6 @@
         };
 
         function combine(items, diagnosis) {
-
             for (var i=0; i<items.length; i++) {
                 var cxr_acc = items[i].cxr_accession_number;
 
@@ -124,8 +123,8 @@
                 }
             }
             vm.items = items;
-            console.log(items);
         };
+
 
         function filterTable(status) {
             var originalitems = vm.originalitems;
