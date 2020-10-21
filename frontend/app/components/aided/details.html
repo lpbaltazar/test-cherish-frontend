@@ -1,7 +1,7 @@
 <span class="title-header-left text-white font-34">Aided Evaluation</span>
 <div class="col-md-12 top-margin-sm">
     <a  class="btn dark-grey btn-sm"
-        ng-click = "vm.back()">
+        ng-click = "vm.finalizeEvaluation(vm.item)">
         <i class = "fa fa-reply fa-lg"></i> Back
     </a>
 </div>
@@ -52,19 +52,45 @@
                 </div>
             </div>
             <div class="box5-radiologist-aided well padding-pls">
-                <h3 class="text-blue-grey">Notes</h3>
-                <div class="form-group" ng-show="!vm.item.diagnosis_diagnosis_aided_notes">
-                    <textarea name="diagnosis_aided_notes" id="diagnosis_aided_notes" class="form-control white" ng-model="vm.diagnosis_aided_notes" rows="6"></textarea>
+                <h3 class="text-blue-grey">
+                    <div class="col-md-9">
+                        Notes
+                    </div>
+                    <div class="col-md-3" ng-if = "!vm.item.diagnosis_diagnosis_aided_finalized">
+                        <a ng-click="vm.editNotes = true" ng-show="vm.item.diagnosis_diagnosis_aided_notes">
+                            <i class="fa fa-fw fa-edit"></i>
+                        </a>
+                    </div>
+                </h3>
+                <div class="form-group" ng-show="!vm.item.diagnosis_diagnosis_aided_notes || vm.editNotes" ng-if="!vm.item.diagnosis_diagnosis_aided_finalized">
+                    <textarea name="diagnosis_aided_notes" id="diagnosis_aided_notes" class="form-control white" ng-model="vm.diagnosis_aided_notes" rows="2"></textarea>
                 </div>
-                <div class="form-group" ng-show="!vm.item.diagnosis_diagnosis_aided_notes">
-                    <button class="btn default" type="button" ng-click="vm.publishNotes(vm.item)" ng-if="vm.diagnosis_aided_notes">Submit</button>
+                <div class="row">
+                    <div class="form-group" ng-show="!vm.item.diagnosis_diagnosis_aided_notes || vm.editNotes">
+                        <button class="btn default" type="button" ng-click="vm.publishNotes(vm.item)" ng-if="vm.diagnosis_aided_notes">Submit</button>
+                    </div>
+                    <div class="form-group" ng-show="vm.editNotes">
+                        <button class="btn default" type="button" ng-click="vm.editNotes=false; vm.diagnosis_aided_notes=''">Cancel</button>
+                    </div>
                 </div>
-                <span class="white" style="text-align: justify; display:block;" ng-show="vm.item.diagnosis_diagnosis_aided_notes">{{ vm.item.diagnosis_diagnosis_aided_notes }}</span>
+                <br />
+                <br />
+                <span class="white font-16 text-grey" style="text-align: justify; display:block;" ng-show="vm.item.diagnosis_diagnosis_aided_notes" ng-hide="vm.editNotes==true">{{ vm.item.diagnosis_diagnosis_aided_notes }}</span>
+                <span class="white font-16 text-grey" style="text-alignL justify; display:block;" ng-show="vm.item.diagnosis_diagnosis_aided_notes == null" ng-if="vm.diagnosis_diagnosis_aided_finalized">N/A</span>
             </div>
             <div class="box6-radiologist-aided well padding-pls">
-                <h3 class="text-blue-grey">Diagnosis</h3>
-                <div class="btn-group" uib-dropdown ng-show="!vm.item.diagnosis_diagnosis_aided_created">
-                    <button id="aided-diagnosis" class="btn" type="button" uib-dropdown-toggle ng-disabled="vm.item.diagnosis_diagnosis_aided_created">
+                <h3>
+                    <div class="col-md-9">Diagnosis</div>
+                    <div class="col-md-3" ng-if="!vm.item.diagnosis_diagnosis_aided_finalized">
+                        <a ng-click="vm.editDiagnosis = true" ng-show="vm.item.diagnosis_diagnosis_aided">
+                            <i class="fa fa-fw fa-edit"></i>
+                        </a>
+                    </div>
+                </h3>
+                <br />
+                <br />
+                <div class="btn-group" uib-dropdown ng-show="!vm.item.diagnosis_diagnosis_aided || vm.editDiagnosis">
+                    <button id="aided-diagnosis" class="btn" type="button" uib-dropdown-toggle>
                         {{ vm.item.diagnosis_diagnosis_aided }}
                     <span class="caret"></span></button>
                     <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="aided-diagnosis">
@@ -74,13 +100,11 @@
                         <li role="menuitem"><a ng-click="vm.setDiagnosis('normal')">Normal</a></li>
                     </ul>
                 </div>
-                <button class="btn default" type="button" ng-click="vm.publishDiagnosis(vm.item)" ng-if="vm.diagnosis" ng-show="!vm.item.diagnosis_diagnosis_aided_created">Confirm</button>
-                <span class="label label-success text-large font-24" ng-show="vm.item.diagnosis_diagnosis_aided==='normal' && vm.item.diagnosis_diagnosis_aided_created">Normal</span>
-                <span class="label label-danger text-large font-24" ng-show="vm.item.diagnosis_diagnosis_aided==='covid' && vm.item.diagnosis_diagnosis_aided_created">COVID Pneumonia</span>
-                <span class="label label-primary text-large font-24" ng-show="vm.item.diagnosis_diagnosis_aided==='abnormal' && vm.item.diagnosis_diagnosis_aided_created">Abnormal Non-pneumonia</span>
-                <span class="label label-warning text-large font-24" ng-show="vm.item.diagnosis_diagnosis_aided==='pneumonia' && vm.item.diagnosis_diagnosis_aided_created">Non-COVID Pneumonia</span>
-                <br />
-                <span>{{ vm.item.diagnosis_diagnosis_aided_created | date: 'MMMM dd, yyyy hh:mm' }}</span>
+                <button class="btn default" type="button" ng-click="vm.publishDiagnosis(vm.item)" ng-if="vm.diagnosis">Confirm</button>
+                <span class="label label-success text-large font-24" ng-show="vm.item.diagnosis_diagnosis_aided==='normal' && !vm.editDiagnosis">Normal</span>
+                <span class="label label-danger text-large font-24" ng-show="vm.item.diagnosis_diagnosis_aided==='covid' && !vm.editDiagnosis">COVID Pneumonia</span>
+                <span class="label label-primary text-large font-24" ng-show="vm.item.diagnosis_diagnosis_aided==='abnormal' && !vm.editDiagnosis">Abnormal Non-pneumonia</span>
+                <span class="label label-warning text-large font-24" ng-show="vm.item.diagnosis_diagnosis_aided==='pneumonia' && !vm.editDiagnosis">Non-COVID Pneumonia</span>
                 <br />
             </div>
         </div> 
@@ -94,7 +118,7 @@
                 <img ng-src="{{ vm.imageUrlAided }}" style="width: 75%; padding-top: 20px;"/>
             </div>
             <div class="box3-physician-aided well padding-pls">
-                <h3 class="text-blue-grey"><strong>Clinical Data</strong></h3>
+                <h3 class="text-blue-grey">Clinical Data</h3>
                 <div class="table-responsive table-wrapper-scroll-y my-custom-scrollbar">
                     <table class="table table-bordered table-hover">
                         <tbody>
@@ -246,7 +270,7 @@
                     </table>
                 </div>
                 <h3 class="text-blue-grey">Impression</h3>
-                <span class="white" style="text-align: justify; display:block;">{{ vm.item.cxr_cxr_result }}</span>
+                <span class="white font-16 text-grey" style="text-align: justify; display:block;">{{ vm.item.cxr_cxr_result }}</span>
             </div>
             <div class="box4-physician-aided well padding-pls">
                 <h3 class="text-blue-grey">Risk Scores</h3>
@@ -280,19 +304,48 @@
                 </div>
             </div>
             <div class="box5-physician-aided well padding-pls">
-                <h3 class="text-blue-grey">Physician Notes: </h3>
-                <div class="form-group" ng-show="!vm.item.diagnosis_diagnosis_aided_notes">
-                    <textarea name="diagnosis_aided_notes" id="diagnosis_aided_notes" class="form-control white" ng-model="vm.diagnosis_aided_notes" rows="5"></textarea>
+                <h3 class="text-blue-grey">
+                    <div class="col-md-9">
+                        Notes
+                    </div>
+                    <div class="col-md-3" ng-if="!vm.item.diagnosis_diagnosis_aided_finalized">
+                        <a ng-click="vm.editNotes = true" ng-show="vm.item.diagnosis_diagnosis_aided_notes">
+                            <i class="fa fa-fw fa-edit"></i>
+                        </a>
+                    </div>
+                </h3>
+                <br />
+                <div class="form-group" ng-show="!vm.item.diagnosis_diagnosis_aided_notes || vm.editNotes">
+                    <textarea name="diagnosis_aided_notes" id="diagnosis_aided_notes" class="form-control white" ng-model="vm.diagnosis_aided_notes" rows="6"></textarea>
                 </div>
-                <div class="form-group" ng-show="!vm.item.diagnosis_diagnosis_aided_notes">
-                    <button class="btn default" type="button" ng-click="vm.publishNotes(vm.item)" ng-if="vm.diagnosis_aided_notes">Submit</button>
+                <div class="row">
+                    <div class="form-group" ng-show="!vm.item.diagnosis_diagnosis_aided_notes || vm.editNotes">
+                        <button class="btn default" type="button" ng-click="vm.publishNotes(vm.item)" ng-if="vm.diagnosis_aided_notes">Submit</button>
+                    </div>
+                    <div class="form-group" ng-show="vm.editNotes">
+                        <button class="btn default" type="button" ng-click="vm.editNotes=false; vm.diagnosis_aided_notes=''">Cancel</button>
+                    </div>
                 </div>
-                <span class="white font-16 text-grey " style="text-align: justify; display:block;" ng-show="vm.item.diagnosis_diagnosis_aided_notes">{{ vm.item.diagnosis_diagnosis_aided_notes }}</span>
+                <br />
+                <br />
+                <span class="white font-16 text-grey" style="text-align: justify; display:block;" ng-show="vm.item.diagnosis_diagnosis_aided_notes" ng-hide="vm.editNotes==true">{{ vm.item.diagnosis_diagnosis_aided_notes }}</span>
+                <span class="white font-16 text-grey" style="text-alignL justify; display:block;" ng-show="vm.item.diagnosis_diagnosis_aided_notes == null" ng-if="vm.diagnosis_diagnosis_aided_finalized">N/A</span>
             </div>
             <div class="box6-physician-aided well padding-pls">
-                <h3 class="text-blue-grey">Diagnosis: </h3>
-                <div class="btn-group" uib-dropdown ng-show="!vm.item.diagnosis_diagnosis_aided_created">
-                    <button id="aided-diagnosis" class="btn" type="button" uib-dropdown-toggle ng-disabled="vm.item.diagnosis_diagnosis_aided_created">
+                <h3 class="text-blue-grey">
+                    <div class="col-md-9">
+                        Diagnosis
+                    </div>
+                    <div class="col-md-3" ng-if="!vm.item.diagnosis_diagnosis_aided_finalized">
+                        <a ng-click="vm.editDiagnosis = true" ng-show="vm.item.diagnosis_diagnosis_aided">
+                            <i class="fa fa-fw fa-edit"></i>
+                        </a>
+                    </div>
+                </h3>
+                <br />
+                <br />
+                <div class="btn-group" uib-dropdown ng-show="!vm.item.diagnosis_diagnosis_aided || vm.editDiagnosis">
+                    <button id="aided-diagnosis" class="btn" type="button" uib-dropdown-toggle>
                         {{ vm.item.diagnosis_diagnosis_aided }}
                     <span class="caret"></span></button>
                     <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="aided-diagnosis">
@@ -302,13 +355,11 @@
                         <li role="menuitem"><a ng-click="vm.setDiagnosis('normal')">Normal</a></li>
                     </ul>
                 </div>
-                <button class="btn default" type="button" ng-click="vm.publishDiagnosis(vm.item)" ng-if="vm.diagnosis" ng-show="!vm.item.diagnosis_diagnosis_aided_created">Confirm</button>
-                <span class="label label-success text-large font-24" ng-show="vm.item.diagnosis_diagnosis_aided==='normal' && vm.item.diagnosis_diagnosis_aided_created">Normal</span>
-                <span class="label label-danger text-large font-24" ng-show="vm.item.diagnosis_diagnosis_aided==='covid' && vm.item.diagnosis_diagnosis_aided_created">COVID Pneumonia</span>
-                <span class="label label-primary text-large font-24" ng-show="vm.item.diagnosis_diagnosis_aided==='abnormal' && vm.item.diagnosis_diagnosis_aided_created">Abnormal Non-pneumonia</span>
-                <span class="label label-warning text-large font-24" ng-show="vm.item.diagnosis_diagnosis_aided==='pneumonia' && vm.item.diagnosis_diagnosis_aided_created">Non-COVID Pneumonia</span>
-                <br />
-                <span>{{ vm.item.diagnosis_diagnosis_aided_created | date: 'MMMM dd, yyyy hh:mm' }}</span>
+                <button class="btn default" type="button" ng-click="vm.publishDiagnosis(vm.item)" ng-if="vm.diagnosis">Confirm</button>
+                <span class="label label-success text-large font-24" ng-show="vm.item.diagnosis_diagnosis_aided==='normal' && !vm.editDiagnosis">Normal</span>
+                <span class="label label-danger text-large font-24" ng-show="vm.item.diagnosis_diagnosis_aided==='covid' && !vm.editDiagnosis">COVID Pneumonia</span>
+                <span class="label label-primary text-large font-24" ng-show="vm.item.diagnosis_diagnosis_aided==='abnormal' && !vm.editDiagnosis">Abnormal Non-pneumonia</span>
+                <span class="label label-warning text-large font-24" ng-show="vm.item.diagnosis_diagnosis_aided==='pneumonia' && !vm.editDiagnosis">Non-COVID Pneumonia</span>
                 <br />
             </div>  
         </div>

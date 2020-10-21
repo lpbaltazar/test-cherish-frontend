@@ -28,6 +28,8 @@
         vm.age                      = 0;
         vm.user                     = $cookies.getObject('user');
         vm.diagnosis_aided_notes    = "";
+        vm.editNotes                = false;
+        vm.editDiagnosis            = false;
 
         // methods 
         vm.back                     = back;
@@ -36,6 +38,7 @@
         vm.publishDiagnosis         = publishDiagnosis;
         vm.publishNotes             = publishNotes;
         vm.fixedProbability         = fixedProbability;
+        vm.finalizeEvaluation       = finalizeEvaluation;
 
         init();
 
@@ -43,12 +46,12 @@
             vm.user = GLOBAL.user($cookies, $state);
             if (vm.user) {
                 vm[vm.user.role] = true;
-                retrieveCXR($stateParams.id);
+                retrieveFinding($stateParams.id);
             };
         };
 
 
-        function retrieveCXR (id) {
+        function retrieveFinding (id) {
             
             if(vm.user.role === 'physician'){
                 var request = {
@@ -56,7 +59,7 @@
                                 body    : {},
                                 params  : false,
                                 hasFile : false,
-                                route   : { 'physician/cxr': id }
+                                route   : { 'physician/diagnosis': id }
                             };
             } else {
                 var request = {
@@ -64,7 +67,7 @@
                                 body    : {},
                                 params  : false,
                                 hasFile : false,
-                                route   : { 'radiologist/cxr': id}
+                                route   : { 'radiologist/diagnosis': id}
                 };
             };
 
@@ -134,11 +137,15 @@
                 }, function (error) {
                     logger.error(error.data.message);
                 });
+
+            vm.diagnosis = "";
+            vm.editDiagnosis = false;
             
         };
 
 
         function publishNotes () {
+
             var content = {
                 header: 'Confirm Notes',
                 message: 'Do you want to confirm notes?'
@@ -150,7 +157,7 @@
                                 body    : {diagnosis_aided_notes: vm.diagnosis_aided_notes},
                                 params  : false,
                                 hasFile : false,
-                                route   : { "physician/diagnosis": vm.item.diagnosis_accession_number, 'track': 'unaided' }
+                                route   : { "physician/diagnosis": vm.item.diagnosis_accession_number, 'track': 'aided' }
                             };
 
             } else {
@@ -159,7 +166,7 @@
                                 body    : {diagnosis_aided_notes: vm.diagnosis_aided_notes},
                                 params  : false,
                                 hasFile : false,
-                                route   : { "radiologist/diagnosis": vm.item.diagnosis_accession_number, 'track': 'unaided' }
+                                route   : { "radiologist/diagnosis": vm.item.diagnosis_accession_number, 'track': 'aided' }
                             };
             };
 
@@ -178,6 +185,8 @@
                 }, function (error) {
                     logger.error(error.data.message);
                 });
+            vm.diagnosis_aided_notes = "";
+            vm.editNotes = false;
             
         };
 
@@ -189,6 +198,55 @@
         
         };
 
+        function finalizeEvaluation (item) {
+            if (item.diagnosis_diagnosis_aided_finalized) {
+                back();
+            } else if (!item.diagnosis_diagnosis_aided) {
+                logger.error("Finish diagnosis before exit.")
+            } else {
+                var content = {
+                    header: 'Leave evaluation?',
+                    message: "After leaving evaluation, you won't be able to make further edits."
+                };
+
+                if (vm.user.role == "physician") {
+                    var request = {
+                                    method  : 'PUT',
+                                    body    : {diagnosis_aided_finalized: "1"},
+                                    params  : false,
+                                    hasFile : false,
+                                    route   : { "physician/diagnosis": vm.item.diagnosis_accession_number, 'track': 'aided' }
+                                };
+
+                } else {
+                    var request = {
+                                    method  : 'PUT',
+                                    body    : {diagnosis_aided_finalized: "1"},
+                                    params  : false,
+                                    hasFile : false,
+                                    route   : { "radiologist/diagnosis": vm.item.diagnosis_accession_number, 'track': 'aided' }
+                                };
+                };
+                
+                ModalService.confirm_modal(content).then( function (response) {
+
+                        if (response) {
+                             QueryService
+                                .query(request)
+                                .then( function (response) { 
+                                    logger.success('Successfully evaluated CXR');
+                                    // init();
+                                    back();
+                                }, function (error) { 
+                                    logger.error(error.data.message);
+                                });
+                        };
+                    }, function (error) {
+                        logger.error(error.data.message);
+                    });
+            }
+        };
+
 
         function back () {
             history.back();
@@ -196,9 +254,7 @@
 
 
         function listImageUrl(url) {
-            // console.log(url)
             vm.lists = url.split(' ');
-            // console.log(vm.lists)
             return vm.lists[0]
 
         };
