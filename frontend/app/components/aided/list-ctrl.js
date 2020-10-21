@@ -25,6 +25,7 @@
         vm.items                    = [];
         vm.originalitems            = [];
         vm.user                     = $cookies.getObject('user');
+        vm.count                    = [];
 
         // methods 
         vm.currentPage              = currentPage;
@@ -77,9 +78,13 @@
                     vm.items            = response.data.data.items; 
                     vm.pagination.page = $stateParams.page || 1;
                     vm.pagination.total = response.data.data.total;
-                    shuffle(vm.items);
-                    shuffle(vm.items);
-                    shuffle(vm.items);
+                    vm.diagnosis        = vm.items[vm.items.length - 1];
+                    vm.items            = vm.items.splice(0, vm.items.length - 1);
+                    vm.count            = vm.items[vm.items.length - 1];
+                    vm.items            = vm.items.splice(0, vm.items.length - 1);
+                    // shuffle(vm.items);
+                    // shuffle(vm.items);
+                    // shuffle(vm.items);
                     addCount(vm.items)
                     vm.originalitems    = vm.items;
                     console.log(vm.items)
@@ -124,10 +129,10 @@
             if (status === "All") {
                 vm.items = originalitems;
             } else if (status === "Done") {
-                let items = vm.originalitems.filter(it => it.diagnosis_diagnosis_aided_created !== null);
+                let items = vm.originalitems.filter(it => it.diagnosis_diagnosis_aided_finalized === 1);
                 vm.items = items;
             } else {
-                let items = vm.originalitems.filter(it => it.diagnosis_diagnosis_aided_created === null);
+                let items = vm.originalitems.filter(it => it.diagnosis_diagnosis_aided_finalized === null);
                 vm.items = items;
             }
 

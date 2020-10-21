@@ -17,8 +17,8 @@
                         <tr ng-repeat="item in vm.items">
                             <td><a ui-sref="app.aided-details({ id:item.cxr_accession_number })" >{{ item.count}}</a></td>
                             <td>
-                                <span ng-show="item.diagnosis_diagnosis_aided_created == null"> Pending</span>
-                                <span ng-show="item.diagnosis_diagnosis_aided_created != null"> Done</span>
+                                <span class="text-blue" ng-show="item.diagnosis_diagnosis_aided_finalized == null"> PENDING </span>
+                                <span class="text-green" ng-show="item.diagnosis_diagnosis_aided_finalized != null"> DONE</span>
                             </td>
                         </tr>
                     </tbody>
