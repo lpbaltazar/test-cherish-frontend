@@ -630,6 +630,17 @@ table.setBorder {
     box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
 }
 
+.well2 {
+    min-height: 20px;
+    padding: 0px 19px 19px 19px;
+    margin-bottom: 20px;
+    /*background-color: #f1f1f1;*/
+    border: 1px solid #f1f1f1;
+    border-radius: 6px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+}
+
 .label {
     font-size: 100% !important;
 }
@@ -720,7 +731,7 @@ hr.new1 {
 .wrapper-radiologist { 
   display: grid; 
   grid-template-columns: 2fr 1fr;
-  grid-auto-rows: 25% 50% 25%;
+  grid-auto-rows: 33.3% 40% 26.6%;
 } 
 
 .box1-radiologist {
@@ -753,45 +764,49 @@ hr.new1 {
   justify-content: center;
 }
 
-.wrapper-physician-1 { 
+.wrapper-physician { 
   display: grid; 
   grid-template-columns: 2fr 1fr;
-  grid-auto-rows: auto;
+  grid-auto-rows: 50%, 40%, 10%;
 }
 
-.box1-physician-1 {
+.box1-physician {
   grid-column-start: 1; 
   grid-column-end: 2; 
   grid-row-start: 1; 
-  grid-row-end: 4;
+  grid-row-end: 4; 
 }
 
-.box2-physician-1 {
+.box2-physician {
   grid-column-start: 2; 
-  /*grid-column-end: 2; */
   grid-row-start: 1; 
-  grid-row-end: 4;
+  grid-row-end: 2; 
 }
 
-.box3-physician-1 {
-  grid-column-start: 1; 
-  grid-column-end: 2; 
-  grid-row-start: 4; 
-  grid-row-end: 5;
-}
-
-.box4-physician-1 {
+.box3-physician {
   grid-column-start: 2; 
-  /*grid-column-end: 2; */
-  grid-row-start: 4; 
-  grid-row-end: 5;
+  grid-row-start: 2; 
+  grid-row-end: 3; 
+}
+
+.box4-physician {
+  grid-column-start: 2; 
+  grid-row-start: 3; 
+  grid-row-end: 4; 
+}
+
+.my-custom-scrollbar1 {
+position: relative;
+height:600px;
+overflow: auto;
 }
 
 .my-custom-scrollbar {
 position: relative;
-height: 500px;
+height:250px;
 overflow: auto;
 }
+
 
 .table-wrapper-scroll-y {
 display: block;
