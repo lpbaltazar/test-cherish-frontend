@@ -22,11 +22,14 @@
         vm.pagination.page          = $stateParams.page || 1;
         vm.pagination.size          = $stateParams.size || 10;
         vm.item                     = {};
+        vm.diagnosis                = {};
         vm.findings                 = [];
         vm.imageUrl                 = "";
         vm.age                      = 0;
         vm.user                     = $cookies.getObject('user');
         vm.diagnosis_unaided_notes  = "";
+        vm.editNotes                = false;
+        vm.editDiagnosis            = false;
 
         // methods 
         vm.back                     = back;
@@ -34,6 +37,7 @@
         vm.setDiagnosis             = setDiagnosis;
         vm.publishDiagnosis         = publishDiagnosis;
         vm.publishNotes             = publishNotes;
+        vm.finalizeEvaluation       = finalizeEvaluation;
 
         init();
 
@@ -42,6 +46,7 @@
             if (vm.user) {
                 vm[vm.user.role] = true;
                 retrieveCXR($stateParams.id);
+                retrieveFinding($stateParams.id);
             };
         };
 
@@ -71,11 +76,43 @@
                 .then( function (response) { 
                     vm.item = response.data.data.items[0];
                     getImageUrl(vm.item.cxr_filename)
-                    console.log(vm.item)
+                    console.log(vm.item.cxr_age)
                 }, function (error) {
                     logger.error(error.data.message);
                 });
         };
+
+
+        function retrieveFinding (id) {
+            
+            if(vm.user.role === 'physician'){
+                var request = {
+                                method  : 'GET',
+                                body    : {},
+                                params  : false,
+                                hasFile : false,
+                                route   : { 'physician/diagnosis': id }
+                            };
+            } else {
+                var request = {
+                                method  : 'GET',
+                                body    : {},
+                                params  : false,
+                                hasFile : false,
+                                route   : { 'radiologist/diagnosis': id}
+                };
+            };
+
+            QueryService
+                .query(request)
+                .then( function (response) { 
+                    vm.diagnosis = response.data.data.items[0];
+                    console.log(vm.diagnosis)
+                }, function (error) {
+                    // logger.error(error.data.message);
+                });
+        };
+
 
 
         function getImageUrl(filename) {
@@ -88,7 +125,7 @@
 
         function setDiagnosis(diagnosis) {
             vm.item.diagnosis_diagnosis_unaided = diagnosis;
-            vm.diagnosis = diagnosis;
+            vm.new_diagnosis = diagnosis;
         };
 
 
@@ -97,24 +134,47 @@
                 header: 'Confirm Diagnosis',
                 message: 'Do you want to confirm diagnosis?'
             };
+            if (!vm.diagnosis) {
 
-            if (vm.user.role == "physician") {
-                var request = {
-                                method  : 'PUT',
-                                body    : {diagnosis_unaided: vm.diagnosis},
-                                params  : false,
-                                hasFile : false,
-                                route   : { "physician/diagnosis": vm.item.diagnosis_accession_number, 'track': 'unaided' }
-                            };
+                if (vm.user.role == "physician") {
+                    var request = {
+                                    method  : 'POST',
+                                    body    : {diagnosis_unaided: vm.new_diagnosis, accession_number:vm.item.cxr_accession_number},
+                                    params  : false,
+                                    hasFile : false,
+                                    route   : { "physician/diagnosis":""}
+                                };
+
+                } else {
+                    var request = {
+                                    method  : 'POST',
+                                    body    : {diagnosis_unaided: vm.new_diagnosis, accession_number:vm.item.cxr_accession_number},
+                                    params  : false,
+                                    hasFile : false,
+                                    route   : { "radiologist/diagnosis":""}
+                                };
+                };
 
             } else {
-                var request = {
-                                method  : 'PUT',
-                                body    : {diagnosis_unaided: vm.diagnosis},
-                                params  : false,
-                                hasFile : false,
-                                route   : { "radiologist/diagnosis": vm.item.diagnosis_accession_number, 'track': 'unaided' }
-                            };
+                if (vm.user.role == "physician") {
+                    var request = {
+                                    method  : 'PUT',
+                                    body    : {diagnosis_unaided: vm.new_diagnosis},
+                                    params  : false,
+                                    hasFile : false,
+                                    route   : { "physician/diagnosis": vm.diagnosis.diagnosis_accession_number, 'track': 'unaided' }
+                                };
+
+                } else {
+                    var request = {
+                                    method  : 'PUT',
+                                    body    : {diagnosis_unaided: vm.new_diagnosis},
+                                    params  : false,
+                                    hasFile : false,
+                                    route   : { "radiologist/diagnosis": vm.diagnosis.diagnosis_accession_number, 'track': 'unaided' }
+                                };
+                };
+
             };
             
             ModalService.confirm_modal(content).then( function (response) {
@@ -124,6 +184,7 @@
                             .query(request)
                             .then( function (response) { 
                                 logger.success('Successfully published diagnosis');
+                                // retrieveFinding($stateParams.id);
                                 init();
                             }, function (error) { 
                                 logger.error(error.data.message);
@@ -132,6 +193,8 @@
                 }, function (error) {
                     logger.error(error.data.message);
                 });
+            vm.new_diagnosis = "";
+            vm.editDiagnosis = false;
             
         };
 
@@ -142,23 +205,47 @@
                 message: 'Do you want to confirm notes?'
             };
 
-            if (vm.user.role == "physician") {
-                var request = {
-                                method  : 'PUT',
-                                body    : {diagnosis_unaided_notes: vm.diagnosis_unaided_notes},
-                                params  : false,
-                                hasFile : false,
-                                route   : { "physician/diagnosis": vm.item.diagnosis_accession_number, 'track': 'unaided' }
-                            };
+            if (!vm.diagnosis) { 
+                if (vm.user.role == "physician") {
+                    var request = {
+                                    method  : 'POST',
+                                    body    : {diagnosis_unaided_notes: vm.diagnosis_unaided_notes, accession_number:vm.item.cxr_accession_number},
+                                    params  : false,
+                                    hasFile : false,
+                                    route   : { "physician/diagnosis": "" }
+                                };
+
+                } else {
+                    var request = {
+                                    method  : 'POST',
+                                    body    : {diagnosis_unaided_notes: vm.diagnosis_unaided_notes, accession_number:vm.item.cxr_accession_number},
+                                    params  : false,
+                                    hasFile : false,
+                                    route   : { "radiologist/diagnosis": ""}
+                                };
+                };
 
             } else {
-                var request = {
-                                method  : 'PUT',
-                                body    : {diagnosis_unaided_notes: vm.diagnosis_unaided_notes},
-                                params  : false,
-                                hasFile : false,
-                                route   : { "radiologist/diagnosis": vm.item.diagnosis_accession_number, 'track': 'unaided' }
-                            };
+
+                if (vm.user.role == "physician") {
+                    var request = {
+                                    method  : 'PUT',
+                                    body    : {diagnosis_unaided_notes: vm.diagnosis_unaided_notes},
+                                    params  : false,
+                                    hasFile : false,
+                                    route   : { "physician/diagnosis": vm.diagnosis.diagnosis_accession_number, 'track': 'unaided' }
+                                };
+
+                } else {
+                    var request = {
+                                    method  : 'PUT',
+                                    body    : {diagnosis_unaided_notes: vm.diagnosis_unaided_notes},
+                                    params  : false,
+                                    hasFile : false,
+                                    route   : { "radiologist/diagnosis": vm.diagnosis.diagnosis_accession_number, 'track': 'unaided' }
+                                };
+                };
+
             };
 
             ModalService.confirm_modal(content).then( function (response) {
@@ -168,6 +255,7 @@
                             .query(request)
                             .then( function (response) { 
                                 logger.success('Successfully published notes');
+                                // retrieveFinding($stateParams.id);
                                 init();
                             }, function (error) { 
                                 logger.error(error.data.message);
@@ -176,7 +264,58 @@
                 }, function (error) {
                     logger.error(error.data.message);
                 });
+            vm.diagnosis_unaided_notes = "";
+            vm.editNotes = false;
             
+        };
+
+        function finalizeEvaluation (diagnosis) {
+            if (diagnosis.diagnosis_diagnosis_unaided_finalized) {
+                back();
+            } else if (!diagnosis.diagnosis_diagnosis_unaided) {
+                logger.error("Finish diagnosis before exit.")
+            } else {
+                var content = {
+                    header: 'Leave evaluation?',
+                    message: "After leaving evaluation, you won't be able to make further edits."
+                };
+
+                if (vm.user.role == "physician") {
+                    var request = {
+                                    method  : 'PUT',
+                                    body    : {diagnosis_unaided_finalized: "1"},
+                                    params  : false,
+                                    hasFile : false,
+                                    route   : { "physician/diagnosis": vm.diagnosis.diagnosis_accession_number, 'track': 'unaided' }
+                                };
+
+                } else {
+                    var request = {
+                                    method  : 'PUT',
+                                    body    : {diagnosis_unaided_finalized: "1"},
+                                    params  : false,
+                                    hasFile : false,
+                                    route   : { "radiologist/diagnosis": vm.diagnosis.diagnosis_accession_number, 'track': 'unaided' }
+                                };
+                };
+                
+                ModalService.confirm_modal(content).then( function (response) {
+
+                        if (response) {
+                             QueryService
+                                .query(request)
+                                .then( function (response) { 
+                                    logger.success('Successfully evaluated CXR');
+                                    // init();
+                                    back();
+                                }, function (error) { 
+                                    logger.error(error.data.message);
+                                });
+                        };
+                    }, function (error) {
+                        logger.error(error.data.message);
+                    });
+            }
         };
 
 
