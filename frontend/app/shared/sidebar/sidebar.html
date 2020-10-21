@@ -15,7 +15,8 @@
                 <i class="fa fa-fw fa-stethoscope"></i> Unaided Track
             </a>
         </li>
-        <li ui-sref-active="active" >
+        <li ui-sref-active="active" ng-hide = " vm.diagnosis.length !== vm.totalImages">
+        <!-- <li ui-sref-active="active"> -->
             <a ui-sref="app.aided({ page:1, size:10 })">
                 <i class="fa fa-fw fa-laptop-medical"></i> Aided Track
             </a>
