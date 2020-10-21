@@ -270,7 +270,10 @@
         };
 
         function finalizeEvaluation (diagnosis) {
-            if (diagnosis.diagnosis_diagnosis_unaided_finalized) {
+
+            if (!diagnosis) {
+                back();
+            } else if (diagnosis.diagnosis_diagnosis_unaided_finalized) {
                 back();
             } else if (!diagnosis.diagnosis_diagnosis_unaided) {
                 logger.error("Finish diagnosis before exit.")
