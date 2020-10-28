@@ -81,7 +81,7 @@
                     vm.pagination.page  = $stateParams.page || 1;
                     vm.pagination.total = response.data.data.total;
                     vm.originalitems    = vm.items;
-                    console.log(vm.diagnosis)
+                    console.log(vm.diagnosis[0].length)
 
                 }, function (error) {
                     logger.error(error.data.errors[0].message);

@@ -2,24 +2,24 @@
 <div class="col-md-12 top-margin-sm">
     <div class="row">
         <div class="col-md-12">
-            <select id="statusDropdown" ng-options="status for status in ['All', 'Done', 'Pending']" ng-model = "status" ng-change="vm.filterTable(status)">
+            <!-- <select id="statusDropdown" ng-options="status for status in ['All', 'Done', 'Pending']" ng-model = "status" ng-change="vm.filterTable(status)">
                 <option  value="" label="Filter Status" disabled selected="selected"></option>
-            </select>
+            </select> -->
             <div class="table-responsive">
                 <table class="table table-hover" id="cxrList">
                    <thead>
                         <tr>
                             <th>CXR ID</th>
-                            <th>Status</th>
+                            <!-- <th>Status</th> -->
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="item in vm.items">
-                            <td><a ui-sref="app.unaided-details({ id:item.cxr_accession_number })" >{{ item.count}}</a></td>
-                            <td>
+                            <td><a ui-sref="app.aided-details({ id:item.cxr_accession_number })" >{{ item.count}}</a></td>
+                            <!-- <td>
                                 <span class="text-blue" ng-show="!item.finished"> PENDING</span>
                                 <span class="text-green" ng-show="item.finished"> DONE</span>
-                            </td>
+                            </td> -->
                         </tr>
                     </tbody>
                 </table>
