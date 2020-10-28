@@ -21,7 +21,7 @@
         vm.pagination.size          = $stateParams.size || 10;
 
         vm.user                     = {};
-        vm.totalImages             = 216;
+        vm.totalImages              = 5;
         vm.retrieveCXR              = retrieveCXR;
 
         init();
